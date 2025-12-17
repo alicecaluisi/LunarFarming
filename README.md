@@ -56,9 +56,45 @@ At the same time, I’m a physicist, so I wanted something that could compute th
 ## Quick start
 
 ### Requirements
-- Python 3.x
-- No external dependencies (standard library only)
 
-### Run
+- Python 3.x  
+- CLI (default): no external dependencies (standard library only)  
+- API (optional): `fastapi` and `uvicorn`
+
+## Run
+
+### CLI (print the report in your terminal)
+
+To print today’s Moon report (age, illumination, phase) plus the gardening tips for the current month, run:
+
 ```bash
 python main.py
+```
+
+### API (open the interactive FastAPI UI + get JSON)
+
+First, install the API dependencies by doing:
+
+```bash
+pip install fastapi uvicorn
+```
+
+Then, start the server:
+
+```bash
+uvicorn api:app --reload
+```
+
+Finally, open these in the browser:
+
+- **Interactive API UI (Swagger)**  
+  `http://127.0.0.1:8000/docs`  
+  It allows to explore the endpoints and click **Try it out** to call `/report` directly from the page.
+
+- **Today report (raw JSON)**  
+  `http://127.0.0.1:8000/report`  
+  Returns the Moon report for today as a JSON payload.
+
+- **Report for a specific date (raw JSON)**  
+  `http://127.0.0.1:8000/report?for_date=2025-12-17`  
+  Same output as above, but computed for the date you pass in `YYYY-MM-DD` format.
