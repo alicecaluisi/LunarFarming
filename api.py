@@ -9,19 +9,16 @@ from gardening_tips import gardening_tips
 
 app = FastAPI()
 
-# CORS per permettere a Flutter web (Chrome) di chiamare l'API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],      # in dev va bene così, poi si restringe
+    allow_origins=["*"],      
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
 def waxing_or_waning(phase: str) -> str:
     return "waning" if "Waning" in phase or phase == "Full Moon" else "waxing"
-
 
 class MoonReport(BaseModel):
     date: str
@@ -31,7 +28,6 @@ class MoonReport(BaseModel):
     waxing_or_waning: str
     tips: str | None = None
     maintenance: str | None = None
-
 
 @app.get("/report", response_model=MoonReport)
 def get_report(for_date: date | None = None):

@@ -6,10 +6,9 @@ from gardening_tips import gardening_tips
 
 app = FastAPI()
 
-# --- CORS per permettere l'accesso dalla tua app mobile / frontend ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],      # in produzione puoi restringere questa lista
+    allow_origins=["*"],      
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -17,18 +16,14 @@ app.add_middleware(
 
 
 def waxing_or_waning(phase: str) -> str:
-    # Full Moon la trattiamo come "waning" per agganciarci al tuo dizionario
     return "waning" if "Waning" in phase or phase == "Full Moon" else "waxing"
-
 
 def format_date_with_suffix(dt: date) -> str:
     day = dt.day
     suffix = "th" if 10 <= day % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(day % 10, "th")
     return f"{day}{suffix} {dt.strftime('%B %Y')}"
 
-
 def build_report(dt: date) -> dict:
-    """Logica condivisa per costruire il report per una certa data."""
     age, illum_pct = moon_age_illum(dt)
     phase = phase_name(age)
     group = waxing_or_waning(phase)
@@ -46,14 +41,10 @@ def build_report(dt: date) -> dict:
         "maintenance": maintenance,
     }
 
-
-# Endpoint di "healthcheck"
 @app.get("/")
 def root():
     return {"status": "ok", "message": "Lunar Farming API is running"}
 
-
-# Report per una data specifica passata come query string
 @app.get("/report")
 def get_report(date_str: str = Query(..., description="Date in YYYY-MM-DD format")):
     try:
@@ -63,8 +54,6 @@ def get_report(date_str: str = Query(..., description="Date in YYYY-MM-DD format
 
     return build_report(dt)
 
-
-# ✅ NUOVO endpoint: report per OGGI
 @app.get("/report/today")
 def get_report_today():
     today = date.today()

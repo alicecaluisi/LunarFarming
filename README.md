@@ -24,7 +24,7 @@ At the same time, I’m a physicist, so I wanted something that could compute th
 ### Backend (core logic)
 
 - `main.py`
-  - CLI entrypoint that prints a daily report (date, Moon age, illumination, phase name) and selects the right gardening tips for the current month and waxing/waning family.
+  - CLI entrypoint that prints a daily report (date, Moon age, illumination, phase name) and selects the right gardening tips for the current month and waxing/waning family, based on the hemisphere the user is located.
 
 - `moonphase.py`
   - Core lunar calculations:
