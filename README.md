@@ -21,6 +21,8 @@ At the same time, I’m a physicist, so I wanted something that could compute th
 
 ## Code overview
 
+### Backend (core logic)
+
 - `main.py`
   - CLI entrypoint that prints a daily report (date, Moon age, illumination, phase name) and selects the right gardening tips for the current month and waxing/waning family.
 
@@ -38,6 +40,16 @@ At the same time, I’m a physicist, so I wanted something that could compute th
     - what to focus on in the garden based on the lunar phase (waning or waxing)
     - a small maintenance advice paragraph
     - seasonal proverbs
+   
+### API (FastAPI)
+
+- `api.py`
+  - Main FastAPI app that exposes the daily report as JSON (CORS enabled for dev).
+  - Endpoint: `GET /report` (optional `for_date=YYYY-MM-DD`) → returns `date`, `age_days`, `illumination_pct`, `phase`, `waxing_or_waning`, `tips`, `maintenance`.
+
+- `api_test.py`
+  - Not a unit test, but a small sandbox API to quickly validate the output/format.
+  - Endpoints: `GET /` (healthcheck), `GET /report?date_str=YYYY-MM-DD`, `GET /report/today`.
 
 ---
 
